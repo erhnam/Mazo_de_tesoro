@@ -31,6 +31,36 @@ body {
     box-shadow: 0 0 12px rgba(0,0,0,0.6);
 }
 
+/* SELECTOR DE EXPANSIONES */
+.expansion-selector {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 10px;
+    margin-top: 10px;
+    text-align: left;
+}
+
+.expansion-option {
+    background: #1e1e1e;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #444;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.expansion-option:hover {
+    background: #282828;
+}
+
+.expansion-option input {
+    cursor: pointer;
+    accent-color: #ffd27a;
+}
+
 /* BOTONES */
 button {
     width: 100%;
@@ -56,8 +86,6 @@ button:hover {
     border-radius: 10px;
     background: #222;
     border: 1px solid #444;
-
-    /* Ajuste para albergar la imagen */
     min-height: 250px; 
     display: flex;
     flex-direction: column;
@@ -67,10 +95,9 @@ button:hover {
     overflow: hidden;
 }
 
-/* Estilo para la imagen de la carta */
 .card-img {
     max-width: 100%;
-    max-height: 400px; /* Altura máxima controlada para evitar desbordes */
+    max-height: 400px; 
     object-fit: contain;
     border-radius: 6px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.5);
@@ -94,14 +121,11 @@ button:hover {
     border-radius: 10px;
     background: #222;
     border: 1px solid #444;
-
     display: flex;
     flex-direction: column;
     gap: 6px;
-
     max-height: 260px;
     overflow-y: auto;
-
     text-align: center;
 }
 
@@ -114,48 +138,11 @@ button:hover {
     border-bottom: none;
 }
 
-/* INFO */
 .small {
     margin-top: 10px;
     font-size: 12px;
     color: #aaa;
 }
-
-/* REGLAS */
-.rules-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    cursor: pointer;
-}
-
-.rules-header h3 {
-    margin: 0;
-    color: #d6b36a;
-    font-size: 16px;
-}
-
-.toggle-btn {
-    font-size: 18px;
-    user-select: none;
-}
-
-.rules-content {
-    display: none;
-    margin-top: 10px;
-    font-size: 13px;
-    line-height: 1.4;
-    color: #cfcfcf;
-}
-
-.rules-content ul {
-    padding-left: 18px;
-}
-
-.rules.open .rules-content {
-    display: block;
-}
-
 </style>
 </head>
 
@@ -163,19 +150,48 @@ button:hover {
 
 <div class="container">
 
+    <!-- Panel de Expansiones -->
+    <div class="panel">
+        <h3 style="color: #ffd27a; margin-top: 0;">📦 Expansiones Disponibles</h3>
+        <div class="expansion-selector">
+            <label class="expansion-option">
+                <input type="checkbox" value="kellars" onchange="shuffleDeck()"> Kellars Keep
+            </label>
+            <label class="expansion-option">
+                <input type="checkbox" value="telor" onchange="shuffleDeck()"> La Profecía de Telor
+            </label>
+            <label class="expansion-option">
+                <input type="checkbox" value="reinas" onchange="shuffleDeck()"> El Tormento de las Reinas Espíritu
+            </label>
+            <label class="expansion-option">
+                <input type="checkbox" value="brujo" onchange="shuffleDeck()"> El Regreso del Señor Brujo
+            </label>
+            <label class="expansion-option">
+                <input type="checkbox" value="ogros" onchange="shuffleDeck()"> Contra la Horda de Ogros
+            </label>
+            <label class="expansion-option">
+                <input type="checkbox" value="congelado" onchange="shuffleDeck()"> El Horror Congelado
+            </label>
+            <label class="expansion-option">
+                <input type="checkbox" value="espejo" onchange="shuffleDeck()"> El Mago del Espejo
+            </label>
+            <label class="expansion-option">
+                <input type="checkbox" value="luna" onchange="shuffleDeck()"> El Ascenso de la Luna del Terror
+            </label>
+            <label class="expansion-option">
+                <input type="checkbox" value="oscuridad" onchange="shuffleDeck()"> La Cripta de la Oscuridad Perpetua
+            </label>
+        </div>
+    </div>
+
     <div class="panel" align="center">
         <h3>Mazo de Tesoro</h3>
-
         <button onclick="drawCard()">Robar Carta</button>
-
-        <div id="currentCard">
-            </div>
-
+        <div id="currentCard"></div>
         <div class="small">
             Cartas restantes: <span id="deckCount"></span>
         </div>
-
-        <button onclick="shuffleDeck()">Reiniciar</button>
+        <button onclick="shuffleDeck()">Reiniciar / Aplicar Cambios</button>
     </div>
 
     <div class="panel">
@@ -189,21 +205,63 @@ button:hover {
 
 <script>
 
-// Se añade la propiedad 'image' con la ruta correspondiente para cada carta
+// Mazo base original
 const originalDeck = [
-    {name:"Gema", desc:"", count:2, image:"cards/gema.png"},
-    {name:"Oro_15", desc:"", count:2, image:"cards/oro_15.png"},
-    {name:"Oro_25", desc:"", count:2, image:"cards/oro_25.png"},
-    {name:"Poción Defesa", desc:"", count:1, image:"cards/pocion_defensa.png"},
-    {name:"Poción Fuerza", desc:"", count:1, image:"cards/pocion_fuerza.png"},
-    {name:"Poción Heróica", desc:"", count:1, image:"cards/pocion_heroica.png"},
-    {name:"Joyas", desc:"", count:2, image:"cards/joyas.png"},
-    {name:"Monstruo Errante", desc:"", count:6, image:"cards/monstruo_errante.png"},
-    {name:"Nada", desc:"", count:1, image:"cards/nada.png"},
-    {name:"Peligro_foso", desc:"", count:2, image:"cards/peligro_foso.png"},
-    {name:"Peligro_flecha", desc:"", count:2, image:"cards/peligro_flecha.png"},
-    {name:"Poción Curativa", desc:"", count:3, image:"cards/pocion_curativa_dado.png"}
+    {name:"Gema", desc:"", count:2, image:"cards/basic/gema.png"},
+    {name:"Oro_15", desc:"", count:2, image:"cards/basic/oro_15.png"},
+    {name:"Oro_25", desc:"", count:2, image:"cards/basic/oro_25.png"},
+    {name:"Poción Defesa", desc:"", count:1, image:"cards/basic/pocion_defensa.png"},
+    {name:"Poción Fuerza", desc:"", count:1, image:"cards/basic/pocion_fuerza.png"},
+    {name:"Poción Heróica", desc:"", count:1, image:"cards/basic/pocion_heroica.png"},
+    {name:"Joyas", desc:"", count:2, image:"cards/basic/joyas.png"},
+    {name:"Monstruo Errante", desc:"", count:6, image:"cards/basic/monstruo_errante.png"},
+    {name:"Nada", desc:"", count:1, image:"cards/basic/nada.png"},
+    {name:"Peligro_foso", desc:"", count:2, image:"cards/basic/peligro_foso.png"},
+    {name:"Peligro_flecha", desc:"", count:2, image:"cards/basic/peligro_flecha.png"},
+    {name:"Poción Curativa", desc:"", count:3, image:"cards/basic/pocion_curativa_dado.png"}
 ];
+
+// Diccionario de expansiones con sus respectivas cartas virtuales
+const expansionsData = {
+    kellars: [
+        {name:"[TK] Antídoto contra venenos", desc:"", count:1, image:"cards/el_retorno_del_senor_brujo/antidoto_contra_venenos.png"},
+        {name:"[TK] Poción de Batalla", desc:"", count:1, image:"cards/el_retorno_del_senor_brujo/pocion_batalla.png"},
+        {name:"[TK] Poción de Destreza", desc:"", count:1, image:"cards/el_retorno_del_senor_brujo/pocion_destreza.png"},
+        {name:"[TK] Poción de Restauración", desc:"", count:1, image:"cards/el_retorno_del_senor_brujo/pocion_restauracion.png"}
+    ],
+    brujo: [
+        {name:"[SB] Antídoto contra venenos", desc:"", count:1, image:"cards/el_retorno_del_senor_brujo/antidoto_contra_venenos.png"},
+        {name:"[SB] Poción de Batalla", desc:"", count:1, image:"cards/el_retorno_del_senor_brujo/pocion_batalla.png"},
+        {name:"[SB] Poción de Destreza", desc:"", count:1, image:"cards/el_retorno_del_senor_brujo/pocion_destreza.png"},
+        {name:"[SB] Poción de Restauración", desc:"", count:1, image:"cards/el_retorno_del_senor_brujo/pocion_restauracion.png"}
+    ],
+    congelado: [
+        {name:"[HC] Poción de Calidez", desc:"", count:2, image:"cards/el_horror_congelado/pocion_calidez.png"},
+        {name:"[HC] Poción de Resistencia Mágica", desc:"", count:2, image:"cards/el_horror_congelado/pocion_resistencia_magica.png"},
+        {name:"[HC] Veneno", desc:"", count:2, image:"cards/el_horror_congelado/veneno.png"}
+    ],
+    espejo: [
+        {name:"[ME] Poción del Recuerdo", desc:"", count:1, image:"cards/el_mago_del_espejo/pocion_recuerdo.png"},
+        {name:"[ME] Poción de Visión", desc:"", count:1, image:"cards/el_mago_del_espejo/pocion_vision.png"},
+        {name:"[ME] Poción de Velocidad", desc:"", count:1, image:"cards/el_mago_del_espejo/pocion_velocidad.png"},
+        {name:"[ME] Poción de Restauracion Superior", desc:"", count:1, image:"cards/el_mago_del_espejo/pocion_rstauracion_superior.png"},
+        {name:"[ME] Tesoro Escondido", desc:"", count:1, image:"cards/el_mago_del_espejo/tesoro_escondido.png"},
+        {name:"[ME] Capa Élfica de Paso", desc:"", count:1, image:"cards/el_mago_del_espejo/capa_elfica_de_paso.png"},
+        {name:"[ME] Paseo Aéreo", desc:"", count:1, image:"cards/el_mago_del_espejo/paseo_aereo.png"},
+        {name:"[ME] Pocion Curación Lobo", desc:"", count:1, image:"cards/el_mago_del_espejo/pocion_curacion_lobo.png"}
+    ],
+    luna: [
+        {name:"[LT] Flor Misteriosa", desc:"", count:2, image:"cards/la_luna_del_terror/flor_misteriosa.png"},
+        {name:"[LT] Ingrediente Desconocido", desc:"", count:2, image:"cards/la_luna_del_terror/ingrediente_desconocido.png"},
+        {name:"[LT] Planta Sagrada", desc:"", count:2, image:"cards/la_luna_del_terror/planta_sagrada.png"},
+        {name:"[LT] Veneno Bestia Sombría", desc:"", count:2, image:"cards/la_luna_del_terror/veneno.png"}
+    ],
+    telor: [],
+    reinas: [],
+    ogros: [],
+    oscuridad: [],
+    junglas: []
+};
 
 let deck = [];
 let discard = [];
@@ -211,8 +269,24 @@ let current = null;
 
 function buildDeck() {
     deck = [];
-    originalDeck.forEach(c => {
-        for (let i = 0; i < c.count; i++) deck.push({...c});
+    
+    // 1. Clonar el mazo base original
+    let currentActiveDeck = [...originalDeck];
+    
+    // 2. Comprobar qué expansiones están seleccionadas en el DOM[cite: 1]
+    const checkboxes = document.querySelectorAll('.expansion-selector input[type="checkbox"]');
+    checkboxes.forEach(checkbox => {
+        if (checkbox.checked && expansionsData[checkbox.value]) {
+            // Concatenar las cartas de la expansión seleccionada al mazo de trabajo[cite: 1]
+            currentActiveDeck = currentActiveDeck.concat(expansionsData[checkbox.value]);
+        }
+    });
+
+    // 3. Generar el pool final según el 'count' de cada carta[cite: 1]
+    currentActiveDeck.forEach(c => {
+        for (let i = 0; i < c.count; i++) {
+            deck.push({...c});
+        }
     });
 }
 
@@ -235,6 +309,7 @@ function drawCard() {
     if (current) discard.push(current);
 
     if (deck.length === 0) {
+        if (discard.length === 0) return; // Mazo completamente vacío
         deck = discard;
         discard = [];
         shuffle(deck);
@@ -246,10 +321,8 @@ function drawCard() {
 
 function updateUI() {
     document.getElementById("deckCount").innerText = deck.length;
-
     const currentCardEl = document.getElementById("currentCard");
 
-    // Lógica de renderizado modificada para mostrar imagen
     if (!current) {
         currentCardEl.innerHTML = `
             <div class="title">Sin carta</div>
@@ -261,9 +334,7 @@ function updateUI() {
         `;
     }
 
-    // EL HISTORIAL DE DESCARTES SIGUE USANDO TEXTO POR ESPACIO
     const discardEl = document.getElementById("discardPile");
-
     if (discard.length === 0) {
         discardEl.innerHTML = `<div class="desc">Vacío</div>`;
     } else {
@@ -275,17 +346,9 @@ function updateUI() {
     }
 }
 
-function toggleRules() {
-    const panel = document.getElementById("rulesPanel");
-    const icon = document.getElementById("toggleIcon");
-
-    panel.classList.toggle("open");
-    icon.textContent = panel.classList.contains("open") ? "➖" : "➕";
-}
-
+// Inicialización
 shuffleDeck();
 
 </script>
-
 </body>
 </html>
