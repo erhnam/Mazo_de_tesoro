@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mazo de Tesoro</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: radial-gradient(circle at top, #1c1c1c, #0b0b0b);
+    color: #e6e6e6;
+}
+
+.container {
+    max-width: 900px;
+    margin: auto;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Paneles */
+.panel {
+    background: #151515;
+    border: 1px solid #333;
+    border-radius: 12px;
+    padding: 12px;
+    box-shadow: 0 0 12px rgba(0,0,0,0.6);
+}
+
+/* BOTONES */
+button {
+    width: 100%;
+    padding: 16px;
+    margin-top: 8px;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    background: #3a2f1f;
+    color: white;
+}
+
+button:hover {
+    background: #5a452a;
+}
+
+/* CARTA ACTUAL */
+#currentCard {
+    margin-top: 10px;
+    padding: 14px;
+    border-radius: 10px;
+    background: #222;
+    border: 1px solid #444;
+
+    /* Ajuste para albergar la imagen */
+    min-height: 250px; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    overflow: hidden;
+}
+
+/* Estilo para la imagen de la carta */
+.card-img {
+    max-width: 100%;
+    max-height: 400px; /* Altura máxima controlada para evitar desbordes */
+    object-fit: contain;
+    border-radius: 6px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+}
+
+.title {
+    font-size: 18px;
+    color: #ffd27a;
+    margin-bottom: 6px;
+}
+
+.desc {
+    font-size: 16px;
+    line-height: 1.4;
+}
+
+/* DESCARTES */
+#discardPile {
+    margin-top: 10px;
+    padding: 14px;
+    border-radius: 10px;
+    background: #222;
+    border: 1px solid #444;
+
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    max-height: 260px;
+    overflow-y: auto;
+
+    text-align: center;
+}
+
+#discardPile div {
+    padding: 4px;
+    border-bottom: 1px solid #333;
+}
+
+#discardPile div:last-child {
+    border-bottom: none;
+}
+
+/* INFO */
+.small {
+    margin-top: 10px;
+    font-size: 12px;
+    color: #aaa;
+}
+
+/* REGLAS */
+.rules-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+
+.rules-header h3 {
+    margin: 0;
+    color: #d6b36a;
+    font-size: 16px;
+}
+
+.toggle-btn {
+    font-size: 18px;
+    user-select: none;
+}
+
+.rules-content {
+    display: none;
+    margin-top: 10px;
+    font-size: 13px;
+    line-height: 1.4;
+    color: #cfcfcf;
+}
+
+.rules-content ul {
+    padding-left: 18px;
+}
+
+.rules.open .rules-content {
+    display: block;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="panel" align="center">
+        <h3>Mazo de Tesoro</h3>
+
+        <button onclick="drawCard()">Robar Carta</button>
+
+        <div id="currentCard">
+            </div>
+
+        <div class="small">
+            Cartas restantes: <span id="deckCount"></span>
+        </div>
+
+        <button onclick="shuffleDeck()">Reiniciar</button>
+    </div>
+
+    <div class="panel">
+        <h3>🗑️ Descartes</h3>
+        <div id="discardPile">
+            <div class="desc">Vacío</div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+
+// Se añade la propiedad 'image' con la ruta correspondiente para cada carta
+const originalDeck = [
+    {name:"Gema", desc:"", count:2, image:"cards/gema.png"},
+    {name:"Oro_15", desc:"", count:2, image:"cards/oro_15.png"},
+    {name:"Oro_25", desc:"", count:2, image:"cards/oro_25.png"},
+    {name:"Poción Defesa", desc:"", count:1, image:"cards/pocion_defensa.png"},
+    {name:"Poción Fuerza", desc:"", count:1, image:"cards/pocion_fuerza.png"},
+    {name:"Poción Heróica", desc:"", count:1, image:"cards/pocion_heroica.png"},
+    {name:"Joyas", desc:"", count:2, image:"cards/joyas.png"},
+    {name:"Monstruo Errante", desc:"", count:6, image:"cards/monstruo_errante.png"},
+    {name:"Nada", desc:"", count:1, image:"cards/nada.png"},
+    {name:"Peligro_foso", desc:"", count:2, image:"cards/peligro_foso.png"},
+    {name:"Peligro_flecha", desc:"", count:2, image:"cards/peligro_flecha.png"},
+    {name:"Poción Curativa", desc:"", count:3, image:"cards/pocion_curativa_dado.png"}
+];
+
+let deck = [];
+let discard = [];
+let current = null;
+
+function buildDeck() {
+    deck = [];
+    originalDeck.forEach(c => {
+        for (let i = 0; i < c.count; i++) deck.push({...c});
+    });
+}
+
+function shuffle(arr) {
+    for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+}
+
+function shuffleDeck() {
+    buildDeck();
+    shuffle(deck);
+    discard = [];
+    current = null;
+    updateUI();
+}
+
+function drawCard() {
+    if (current) discard.push(current);
+
+    if (deck.length === 0) {
+        deck = discard;
+        discard = [];
+        shuffle(deck);
+    }
+
+    current = deck.pop();
+    updateUI();
+}
+
+function updateUI() {
+    document.getElementById("deckCount").innerText = deck.length;
+
+    const currentCardEl = document.getElementById("currentCard");
+
+    // Lógica de renderizado modificada para mostrar imagen
+    if (!current) {
+        currentCardEl.innerHTML = `
+            <div class="title">Sin carta</div>
+            <div class="desc">Pulsa “Robar Carta” para comenzar.</div>
+        `;
+    } else {
+        currentCardEl.innerHTML = `
+            <img src="${current.image}" alt="${current.name}" class="card-img" />
+        `;
+    }
+
+    // EL HISTORIAL DE DESCARTES SIGUE USANDO TEXTO POR ESPACIO
+    const discardEl = document.getElementById("discardPile");
+
+    if (discard.length === 0) {
+        discardEl.innerHTML = `<div class="desc">Vacío</div>`;
+    } else {
+        discardEl.innerHTML = discard
+            .slice()
+            .reverse()
+            .map(c => `<div>${c.name}</div>`)
+            .join("");
+    }
+}
+
+function toggleRules() {
+    const panel = document.getElementById("rulesPanel");
+    const icon = document.getElementById("toggleIcon");
+
+    panel.classList.toggle("open");
+    icon.textContent = panel.classList.contains("open") ? "➖" : "➕";
+}
+
+shuffleDeck();
+
+</script>
+
+</body>
+</html>
