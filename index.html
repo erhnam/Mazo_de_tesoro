@@ -155,21 +155,6 @@ button:hover {
         <h3 style="color: #ffd27a; margin-top: 0;">📦 Expansiones Disponibles</h3>
         <div class="expansion-selector">
             <label class="expansion-option">
-                <input type="checkbox" value="kellars" onchange="shuffleDeck()"> Kellars Keep
-            </label>
-            <label class="expansion-option">
-                <input type="checkbox" value="telor" onchange="shuffleDeck()"> La Profecía de Telor
-            </label>
-            <label class="expansion-option">
-                <input type="checkbox" value="reinas" onchange="shuffleDeck()"> El Tormento de las Reinas Espíritu
-            </label>
-            <label class="expansion-option">
-                <input type="checkbox" value="brujo" onchange="shuffleDeck()"> El Regreso del Señor Brujo
-            </label>
-            <label class="expansion-option">
-                <input type="checkbox" value="ogros" onchange="shuffleDeck()"> Contra la Horda de Ogros
-            </label>
-            <label class="expansion-option">
                 <input type="checkbox" value="congelado" onchange="shuffleDeck()"> El Horror Congelado
             </label>
             <label class="expansion-option">
@@ -179,7 +164,10 @@ button:hover {
                 <input type="checkbox" value="luna" onchange="shuffleDeck()"> El Ascenso de la Luna del Terror
             </label>
             <label class="expansion-option">
-                <input type="checkbox" value="oscuridad" onchange="shuffleDeck()"> La Cripta de la Oscuridad Perpetua
+                <input type="checkbox" value="junglas" onchange="shuffleDeck()"> Junglas del Delthrak
+            </label>
+            <label class="expansion-option">
+                <input type="checkbox" value="wizard" onchange="shuffleDeck()"> Hechiceros de Morcar
             </label>
         </div>
     </div>
@@ -210,12 +198,11 @@ const originalDeck = [
     {name:"Gema", desc:"", count:2, image:"cards/basic/gema.png"},
     {name:"Oro_15", desc:"", count:2, image:"cards/basic/oro_15.png"},
     {name:"Oro_25", desc:"", count:2, image:"cards/basic/oro_25.png"},
-    {name:"Poción Defesa", desc:"", count:1, image:"cards/basic/pocion_defensa.png"},
-    {name:"Poción Fuerza", desc:"", count:1, image:"cards/basic/pocion_fuerza.png"},
+    {name:"Poción de Defensa", desc:"", count:1, image:"cards/basic/pocion_defensa.png"},
+    {name:"Poción de Fuerza", desc:"", count:1, image:"cards/basic/pocion_fuerza.png"},
     {name:"Poción Heróica", desc:"", count:1, image:"cards/basic/pocion_heroica.png"},
     {name:"Joyas", desc:"", count:2, image:"cards/basic/joyas.png"},
     {name:"Monstruo Errante", desc:"", count:6, image:"cards/basic/monstruo_errante.png"},
-    {name:"Nada", desc:"", count:1, image:"cards/basic/nada.png"},
     {name:"Peligro_foso", desc:"", count:2, image:"cards/basic/peligro_foso.png"},
     {name:"Peligro_flecha", desc:"", count:2, image:"cards/basic/peligro_flecha.png"},
     {name:"Poción Curativa", desc:"", count:3, image:"cards/basic/pocion_curativa_dado.png"}
@@ -223,18 +210,6 @@ const originalDeck = [
 
 // Diccionario de expansiones con sus respectivas cartas virtuales
 const expansionsData = {
-    kellars: [
-        {name:"[TK] Antídoto contra venenos", desc:"", count:1, image:"cards/el_retorno_del_senor_brujo/antidoto_contra_venenos.png"},
-        {name:"[TK] Poción de Batalla", desc:"", count:1, image:"cards/el_retorno_del_senor_brujo/pocion_batalla.png"},
-        {name:"[TK] Poción de Destreza", desc:"", count:1, image:"cards/el_retorno_del_senor_brujo/pocion_destreza.png"},
-        {name:"[TK] Poción de Restauración", desc:"", count:1, image:"cards/el_retorno_del_senor_brujo/pocion_restauracion.png"}
-    ],
-    brujo: [
-        {name:"[SB] Antídoto contra venenos", desc:"", count:1, image:"cards/el_retorno_del_senor_brujo/antidoto_contra_venenos.png"},
-        {name:"[SB] Poción de Batalla", desc:"", count:1, image:"cards/el_retorno_del_senor_brujo/pocion_batalla.png"},
-        {name:"[SB] Poción de Destreza", desc:"", count:1, image:"cards/el_retorno_del_senor_brujo/pocion_destreza.png"},
-        {name:"[SB] Poción de Restauración", desc:"", count:1, image:"cards/el_retorno_del_senor_brujo/pocion_restauracion.png"}
-    ],
     congelado: [
         {name:"[HC] Poción de Calidez", desc:"", count:2, image:"cards/el_horror_congelado/pocion_calidez.png"},
         {name:"[HC] Poción de Resistencia Mágica", desc:"", count:2, image:"cards/el_horror_congelado/pocion_resistencia_magica.png"},
@@ -244,7 +219,7 @@ const expansionsData = {
         {name:"[ME] Poción del Recuerdo", desc:"", count:1, image:"cards/el_mago_del_espejo/pocion_recuerdo.png"},
         {name:"[ME] Poción de Visión", desc:"", count:1, image:"cards/el_mago_del_espejo/pocion_vision.png"},
         {name:"[ME] Poción de Velocidad", desc:"", count:1, image:"cards/el_mago_del_espejo/pocion_velocidad.png"},
-        {name:"[ME] Poción de Restauracion Superior", desc:"", count:1, image:"cards/el_mago_del_espejo/pocion_rstauracion_superior.png"},
+        {name:"[ME] Poción de Restauracion Superior", desc:"", count:1, image:"cards/el_mago_del_espejo/pocion_restauracion_superior.png"},
         {name:"[ME] Tesoro Escondido", desc:"", count:1, image:"cards/el_mago_del_espejo/tesoro_escondido.png"},
         {name:"[ME] Capa Élfica de Paso", desc:"", count:1, image:"cards/el_mago_del_espejo/capa_elfica_de_paso.png"},
         {name:"[ME] Paseo Aéreo", desc:"", count:1, image:"cards/el_mago_del_espejo/paseo_aereo.png"},
@@ -256,11 +231,22 @@ const expansionsData = {
         {name:"[LT] Planta Sagrada", desc:"", count:2, image:"cards/la_luna_del_terror/planta_sagrada.png"},
         {name:"[LT] Veneno Bestia Sombría", desc:"", count:2, image:"cards/la_luna_del_terror/veneno.png"}
     ],
-    telor: [],
-    reinas: [],
-    ogros: [],
-    oscuridad: [],
-    junglas: []
+    junglas: [
+        {name:"[JD] Reliquia Enana Ancestral", desc:"¡Descubres uno de los tesoros olvidados de Delthrak! Esta pieza de elegante artesanía enana vale 50 monedas de oro. No devuelvas esta carta al mazo", count:1, image: null},
+        {name:"[JD] Corazón Esmeralda de Delthrak", desc:"Esta rara gema es muy apreciada por los habitantes de Delthrak y puede venderse por 75 monedas de oro", count:1, image: null},
+        {name:"[JD] Peligro! - Figura", desc:"¡Peligro! Una figura chillona se activa. Lanza 1 dado de seis caras por cada uno de tus Puntos de Mente. Si no sacas al menos un '6', sufres 2 Puntos de Cuerpo de daño.", count:1, image: null},
+        {name:"[JD] Peligro! - Baratijas", desc:"¡Peligro! Registras entre unos restos infectados. Sufres los efectos de las baratijas malditas de la jungla.", count:1, image: null},
+    ],
+    wizard: [
+        {name:"[HM] Activación Mágica", desc:"Mientras registras una habitación activas una trampa 'Estallido de Fuego'. Coloca un símbolo de 'Estallido de Fuego' en el centro de la habitación y consulta la tabla de referencia de Magia para saber los efectos de la trampa. Descartar después de usarla.", count:2, image: null},
+        {name:"[HM] Nada", desc:"", count:1, image:"cards/hechiceros_de_morcar/nada.png"},
+        {name:"[HM] Veneno", desc:"Destapas un frasco marrón, oxidado, lleno de un líquido. Lo pruebas y resulta venenoso. Debes tirar un dado de combate y si sacas una calavera pierdes un Punto Cuerpo, en otro caso, resultas ileso. Descartar después de usarla.", count:1, image:null},
+        {name:"[HM] Poción de Alquimia", desc:"En un rincón de la habitación descubres una olla vieja que contiene una pasta opaca. Si extiendes esta pasta sobre un elemento de tu equipo lo convierte en oro con un valor equivalente a 100 monedas de oro. Esa carta de equipo se pierde. Descartar, junto con la carta de equipo, cuando haya sido usada.", count:1, image:null},
+        {name:"[HM] Poción de Carisma", desc:"Detrás de un ladrillo suelto encuentras una botella dorada llena de un líquido del mismo color. Bébelo entre aventuras cuando quieras contratar hombres armados y podrás contratar hasta tres de ellos por 25 monedas de oro menos de la tarifa normal para cada uno. Descartar después de usarla.", count:1, image:null},
+        {name:"[HM] Poción de Resistencia al Fuego", desc:"", count:1, image:null},
+        {name:"[HM] Poción de Resistencia a la Magia", desc:"Encuentras una pequeña botella escondida bajo un escudo oxidado. Podrás beberte la pócima cuando un hechizo haya sido lanzado en contra tuya e ignorar los efectos del hechizo. Descartar después de usarla.", count:1, image:null},
+        {name:"[HM] Poción de Aptitudes Mágicas", desc:"Descubres una ampolla de un líquido plateado bajo una losa suelta. Si eres el Elfo o el Mago podrás bebértela al principio de tu turno y poder lanzar dos hechizos en vez de uno. Descartar después de usarla.", count:1, image:null},
+    ],
 };
 
 let deck = [];
@@ -329,9 +315,17 @@ function updateUI() {
             <div class="desc">Pulsa “Robar Carta” para comenzar.</div>
         `;
     } else {
-        currentCardEl.innerHTML = `
-            <img src="${current.image}" alt="${current.name}" class="card-img" />
-        `;
+        // Validación: si tiene imagen, renderiza el tag <img>. Si es null, renderiza el título y la descripción.
+        if (current.image) {
+            currentCardEl.innerHTML = `
+                <img src="${current.image}" alt="${current.name}" class="card-img" />
+            `;
+        } else {
+            currentCardEl.innerHTML = `
+                <div class="title" style="font-size: 22px; font-weight: bold; margin-bottom: 12px;">${current.name}</div>
+                <div class="desc" style="max-width: 90%; margin: 0 auto;">${current.desc || "Sin descripción disponible."}</div>
+            `;
+        }
     }
 
     const discardEl = document.getElementById("discardPile");
