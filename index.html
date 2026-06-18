@@ -1,359 +1,361 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mazo de Tesoro</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mazo de Tesoro</title>
 
-<style>
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: radial-gradient(circle at top, #1c1c1c, #0b0b0b);
-    color: #e6e6e6;
-}
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: radial-gradient(circle at top, #1c1c1c, #0b0b0b);
+            color: #e6e6e6;
+        }
 
-.container {
-    max-width: 900px;
-    margin: auto;
-    padding: 12px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
+        .container {
+            max-width: 900px;
+            margin: auto;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
 
-/* Paneles */
-.panel {
-    background: #151515;
-    border: 1px solid #333;
-    border-radius: 12px;
-    padding: 12px;
-    box-shadow: 0 0 12px rgba(0,0,0,0.6);
-}
+        /* Paneles */
+        .panel {
+            background: #151515;
+            border: 1px solid #333;
+            border-radius: 12px;
+            padding: 12px;
+            box-shadow: 0 0 12px rgba(0, 0, 0, 0.6);
+        }
 
-/* SELECTOR DE EXPANSIONES */
-.expansion-selector {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 10px;
-    margin-top: 10px;
-    text-align: left;
-}
+        /* SELECTOR DE EXPANSIONES */
+        .expansion-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+            text-align: left;
+        }
 
-.expansion-option {
-    background: #1e1e1e;
-    padding: 10px;
-    border-radius: 8px;
-    border: 1px solid #444;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    cursor: pointer;
-    transition: background 0.2s;
-}
+        .expansion-option {
+            background: #1e1e1e;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #444;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
 
-.expansion-option:hover {
-    background: #282828;
-}
+        .expansion-option:hover {
+            background: #282828;
+        }
 
-.expansion-option input {
-    cursor: pointer;
-    accent-color: #ffd27a;
-}
+        .expansion-option input {
+            cursor: pointer;
+            accent-color: #ffd27a;
+        }
 
-/* BOTONES */
-button {
-    width: 100%;
-    padding: 16px;
-    margin-top: 8px;
-    border: none;
-    border-radius: 10px;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    background: #3a2f1f;
-    color: white;
-}
+        /* BOTONES */
+        button {
+            width: 100%;
+            padding: 16px;
+            margin-top: 8px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            background: #3a2f1f;
+            color: white;
+        }
 
-button:hover {
-    background: #5a452a;
-}
+        button:hover {
+            background: #5a452a;
+        }
 
-/* CARTA ACTUAL */
-#currentCard {
-    margin-top: 10px;
-    padding: 14px;
-    border-radius: 10px;
-    background: #222;
-    border: 1px solid #444;
-    min-height: 250px; 
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    overflow: hidden;
-}
+        /* CARTA ACTUAL */
+        #currentCard {
+            margin-top: 10px;
+            padding: 14px;
+            border-radius: 10px;
+            background: #222;
+            border: 1px solid #444;
+            min-height: 250px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            overflow: hidden;
+        }
 
-.card-img {
-    max-width: 100%;
-    max-height: 400px; 
-    object-fit: contain;
-    border-radius: 6px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.5);
-}
+        .card-img {
+            max-width: 100%;
+            max-height: 400px;
+            object-fit: contain;
+            border-radius: 6px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+        }
 
-.title {
-    font-size: 18px;
-    color: #ffd27a;
-    margin-bottom: 6px;
-}
+        .title {
+            font-size: 18px;
+            color: #ffd27a;
+            margin-bottom: 6px;
+        }
 
-.desc {
-    font-size: 16px;
-    line-height: 1.4;
-}
+        .desc {
+            font-size: 16px;
+            line-height: 1.4;
+        }
 
-/* DESCARTES */
-#discardPile {
-    margin-top: 10px;
-    padding: 14px;
-    border-radius: 10px;
-    background: #222;
-    border: 1px solid #444;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    max-height: 260px;
-    overflow-y: auto;
-    text-align: center;
-}
+        /* DESCARTES */
+        #discardPile {
+            margin-top: 10px;
+            padding: 14px;
+            border-radius: 10px;
+            background: #222;
+            border: 1px solid #444;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            max-height: 260px;
+            overflow-y: auto;
+            text-align: center;
+        }
 
-#discardPile div {
-    padding: 4px;
-    border-bottom: 1px solid #333;
-}
+        #discardPile div {
+            padding: 4px;
+            border-bottom: 1px solid #333;
+        }
 
-#discardPile div:last-child {
-    border-bottom: none;
-}
+        #discardPile div:last-child {
+            border-bottom: none;
+        }
 
-.small {
-    margin-top: 10px;
-    font-size: 12px;
-    color: #aaa;
-}
-</style>
+        .small {
+            margin-top: 10px;
+            font-size: 12px;
+            color: #aaa;
+        }
+    </style>
 </head>
 
 <body>
 
-<div class="container">
+    <div class="container">
 
-    <!-- Panel de Expansiones -->
-    <div class="panel">
-        <h3 style="color: #ffd27a; margin-top: 0;">📦 Expansiones Disponibles</h3>
-        <div class="expansion-selector">
-            <label class="expansion-option">
-                <input type="checkbox" value="congelado" onchange="shuffleDeck()"> El Horror Congelado
-            </label>
-            <label class="expansion-option">
-                <input type="checkbox" value="espejo" onchange="shuffleDeck()"> El Mago del Espejo
-            </label>
-            <label class="expansion-option">
-                <input type="checkbox" value="luna" onchange="shuffleDeck()"> El Ascenso de la Luna del Terror
-            </label>
-            <label class="expansion-option">
-                <input type="checkbox" value="junglas" onchange="shuffleDeck()"> Junglas del Delthrak
-            </label>
-            <label class="expansion-option">
-                <input type="checkbox" value="wizard" onchange="shuffleDeck()"> Hechiceros de Morcar
-            </label>
+        <!-- Panel de Expansiones -->
+        <div class="panel">
+            <h3 style="color: #ffd27a; margin-top: 0;">📦 Expansiones Disponibles</h3>
+            <div class="expansion-selector">
+                <label class="expansion-option">
+                    <input type="checkbox" value="congelado" onchange="shuffleDeck()"> El Horror Congelado
+                </label>
+                <label class="expansion-option">
+                    <input type="checkbox" value="espejo" onchange="shuffleDeck()"> El Mago del Espejo
+                </label>
+                <label class="expansion-option">
+                    <input type="checkbox" value="luna" onchange="shuffleDeck()"> El Ascenso de la Luna del Terror
+                </label>
+                <label class="expansion-option">
+                    <input type="checkbox" value="junglas" onchange="shuffleDeck()"> Junglas del Delthrak
+                </label>
+                <label class="expansion-option">
+                    <input type="checkbox" value="wizard" onchange="shuffleDeck()"> Hechiceros de Morcar
+                </label>
+            </div>
         </div>
+
+        <div class="panel" align="center">
+            <h3>Mazo de Tesoro</h3>
+            <button onclick="drawCard()">Robar Carta</button>
+            <div id="currentCard"></div>
+            <div class="small">
+                Cartas restantes: <span id="deckCount"></span>
+            </div>
+            <button onclick="shuffleDeck()">Reiniciar / Aplicar Cambios</button>
+        </div>
+
+        <div class="panel">
+            <h3>🗑️ Descartes</h3>
+            <div id="discardPile">
+                <div class="desc">Vacío</div>
+            </div>
+        </div>
+
     </div>
 
-    <div class="panel" align="center">
-        <h3>Mazo de Tesoro</h3>
-        <button onclick="drawCard()">Robar Carta</button>
-        <div id="currentCard"></div>
-        <div class="small">
-            Cartas restantes: <span id="deckCount"></span>
-        </div>
-        <button onclick="shuffleDeck()">Reiniciar / Aplicar Cambios</button>
-    </div>
+    <script>
 
-    <div class="panel">
-        <h3>🗑️ Descartes</h3>
-        <div id="discardPile">
-            <div class="desc">Vacío</div>
-        </div>
-    </div>
+        // Mazo base original (Se añade 'keepInDiscard: true' por defecto)
+        const originalDeck = [
+            { name: "Gema", desc: "", count: 2, image: "cards/basic/gema.png", keepInDiscard: false },
+            { name: "Oro_15", desc: "", count: 2, image: "cards/basic/oro_15.png", keepInDiscard: false },
+            { name: "Oro_25", desc: "", count: 2, image: "cards/basic/oro_25.png", keepInDiscard: false },
+            { name: "Poción de Defensa", desc: "", count: 1, image: "cards/basic/pocion_defensa.png", keepInDiscard: false },
+            { name: "Poción de Fuerza", desc: "", count: 1, image: "cards/basic/pocion_fuerza.png", keepInDiscard: false },
+            { name: "Poción Heróica", desc: "", count: 1, image: "cards/basic/pocion_heroica.png", keepInDiscard: false },
+            { name: "Joyas", desc: "", count: 2, image: "cards/basic/joyas.png", keepInDiscard: false },
+            { name: "Monstruo Errante", desc: "", count: 6, image: "cards/basic/monstruo_errante.png", keepInDiscard: true },
+            { name: "Peligro", desc: "", count: 2, image: "cards/basic/peligro_foso.png", keepInDiscard: true },
+            { name: "Peligro", desc: "", count: 2, image: "cards/basic/peligro_flecha.png", keepInDiscard: true },
+            { name: "Poción Curativa", desc: "", count: 3, image: "cards/basic/pocion_curativa_dado.png", keepInDiscard: false }
+        ];
 
-</div>
+        // Diccionario de expansiones con sus respectivas cartas virtuales
+        const expansionsData = {
+            congelado: [
+                { name: "[HC] Poción de Calidez", desc: "", count: 2, image: "cards/el_horror_congelado/pocion_calidez.png", keepInDiscard: false },
+                { name: "[HC] Poción de Resistencia Mágica", desc: "", count: 2, image: "cards/el_horror_congelado/pocion_resistencia_magica.png", keepInDiscard: false },
+                { name: "[HC] Veneno", desc: "", count: 2, image: "cards/el_horror_congelado/veneno.png", keepInDiscard: true }
+            ],
+            espejo: [
+                { name: "[ME] Poción del Recuerdo", desc: "", count: 1, image: "cards/el_mago_del_espejo/pocion_recuerdo.png", keepInDiscard: false },
+                { name: "[ME] Poción de Visión", desc: "", count: 1, image: "cards/el_mago_del_espejo/pocion_vision.png", keepInDiscard: false },
+                { name: "[ME] Poción de Velocidad", desc: "", count: 1, image: "cards/el_mago_del_espejo/pocion_velocidad.png", keepInDiscard: false },
+                { name: "[ME] Poción de Restauracion Superior", desc: "", count: 1, image: "cards/el_mago_del_espejo/pocion_restauracion_superior.png", keepInDiscard: false },
+                { name: "[ME] Tesoro Escondido", desc: "", count: 1, image: "cards/el_mago_del_espejo/tesoro_escondido.png", keepInDiscard: false },
+                { name: "[ME] Capa Élfica de Paso", desc: "", count: 1, image: "cards/el_mago_del_espejo/capa_elfica_de_paso.png", keepInDiscard: false },
+                { name: "[ME] Paseo Aéreo", desc: "", count: 1, image: "cards/el_mago_del_espejo/paseo_aereo.png", keepInDiscard: false },
+                { name: "[ME] Pocion Curación Lobo", desc: "", count: 1, image: "cards/el_mago_del_espejo/pocion_curacion_lobo.png", keepInDiscard: false }
+            ],
+            luna: [
+                { name: "[LT] Flor Misteriosa", desc: "", count: 2, image: "cards/la_luna_del_terror/flor_misteriosa.png", keepInDiscard: false },
+                { name: "[LT] Ingrediente Desconocido", desc: "", count: 2, image: "cards/la_luna_del_terror/ingrediente_desconocido.png", keepInDiscard: false },
+                { name: "[LT] Planta Sagrada", desc: "", count: 2, image: "cards/la_luna_del_terror/planta_sagrada.png", keepInDiscard: false },
+                { name: "[LT] Veneno Bestia Sombría", desc: "", count: 2, image: "cards/la_luna_del_terror/veneno.png", keepInDiscard: true }
+            ],
+            junglas: [
+                { name: "[JD] Reliquia Enana Ancestral", desc: "", count: 1, image: "cards/junglas_del_delthrak/antigua_reliquia_enana.png", keepInDiscard: false },
+                { name: "[JD] Corazón Esmeralda de Delthrak", desc: "", count: 1, image: "cards/junglas_del_delthrak/corazon_esmeralda.png", keepInDiscard: false },
+                { name: "[JD] Peligro", desc: "", count: 1, image: "cards/junglas_del_delthrak/peligro1.png", keepInDiscard: true },
+                { name: "[JD] Peligro", desc: "", count: 1, image: "cards/junglas_del_delthrak/peligro2.png", keepInDiscard: true },
+            ],
+            wizard: [
+                { name: "[HM] Activación Mágica", desc: ".", count: 2, image: "cards/hechiceros_de_morcar/trampa_magica.png", keepInDiscard: false },
+                { name: "[HM] Nada", desc: "", count: 1, image: "cards/hechiceros_de_morcar/nada.png", keepInDiscard: true },
+                { name: "[HM] Veneno", desc: "", count: 1, image: "cards/hechiceros_de_morcar/veneno.png", keepInDiscard: false },
+                { name: "[HM] Poción de Alquimia", desc: "", count: 1, image: "cards/hechiceros_de_morcar/pocion_alquimia.png", keepInDiscard: false },
+                { name: "[HM] Poción de Carisma", desc: "", count: 1, image: "cards/hechiceros_de_morcar/pocion_carisma.png", keepInDiscard: false },
+                { name: "[HM] Poción de Resistencia Ignea", desc: "", count: 1, image: "cards/hechiceros_de_morcar/pocion_resistencia_ignea.png.png", keepInDiscard: false },
+                { name: "[HM] Poción de Resistencia Mágica", desc: "", count: 1, image: "cards/hechiceros_de_morcar/pocion_resistencia_magica.png", keepInDiscard: false },
+                { name: "[HM] Poción de Aptitudes Mágicas", desc: "", count: 1, image: "cards/hechiceros_de_morcar/pocion_habilidad_magica.png", keepInDiscard: false },
+            ],
+        };
 
-<script>
+        let deck = [];
+        let discard = [];
+        let current = null;
 
-// Mazo base original (Se añade 'keepInDiscard: true' por defecto)
-const originalDeck = [
-    {name:"Gema", desc:"", count:2, image:"cards/basic/gema.png", keepInDiscard: false},
-    {name:"Oro_15", desc:"", count:2, image:"cards/basic/oro_15.png", keepInDiscard: false},
-    {name:"Oro_25", desc:"", count:2, image:"cards/basic/oro_25.png", keepInDiscard: false},
-    {name:"Poción de Defensa", desc:"", count:1, image:"cards/basic/pocion_defensa.png", keepInDiscard: false},
-    {name:"Poción de Fuerza", desc:"", count:1, image:"cards/basic/pocion_fuerza.png", keepInDiscard: false},
-    {name:"Poción Heróica", desc:"", count:1, image:"cards/basic/pocion_heroica.png", keepInDiscard: false},
-    {name:"Joyas", desc:"", count:2, image:"cards/basic/joyas.png", keepInDiscard: false},
-    {name:"Monstruo Errante", desc:"", count:6, image:"cards/basic/monstruo_errante.png", keepInDiscard: true},
-    {name:"Peligro_foso", desc:"", count:2, image:"cards/basic/peligro_foso.png", keepInDiscard: true},
-    {name:"Peligro_flecha", desc:"", count:2, image:"cards/basic/peligro_flecha.png", keepInDiscard: true},
-    {name:"Poción Curativa", desc:"", count:3, image:"cards/basic/pocion_curativa_dado.png", keepInDiscard: false}
-];
+        function buildDeck() {
+            deck = [];
 
-// Diccionario de expansiones con sus respectivas cartas virtuales
-const expansionsData = {
-    congelado: [
-        {name:"[HC] Poción de Calidez", desc:"", count:2, image:"cards/el_horror_congelado/pocion_calidez.png", keepInDiscard: false},
-        {name:"[HC] Poción de Resistencia Mágica", desc:"", count:2, image:"cards/el_horror_congelado/pocion_resistencia_magica.png", keepInDiscard: false},
-        {name:"[HC] Veneno", desc:"", count:2, image:"cards/el_horror_congelado/veneno.png", keepInDiscard: true}
-    ],
-    espejo: [
-        {name:"[ME] Poción del Recuerdo", desc:"", count:1, image:"cards/el_mago_del_espejo/pocion_recuerdo.png", keepInDiscard: false},
-        {name:"[ME] Poción de Visión", desc:"", count:1, image:"cards/el_mago_del_espejo/pocion_vision.png", keepInDiscard: false},
-        {name:"[ME] Poción de Velocidad", desc:"", count:1, image:"cards/el_mago_del_espejo/pocion_velocidad.png", keepInDiscard: false},
-        {name:"[ME] Poción de Restauracion Superior", desc:"", count:1, image:"cards/el_mago_del_espejo/pocion_restauracion_superior.png", keepInDiscard: false},
-        {name:"[ME] Tesoro Escondido", desc:"", count:1, image:"cards/el_mago_del_espejo/tesoro_escondido.png", keepInDiscard: false},
-        {name:"[ME] Capa Élfica de Paso", desc:"", count:1, image:"cards/el_mago_del_espejo/capa_elfica_de_paso.png", keepInDiscard: false},
-        {name:"[ME] Paseo Aéreo", desc:"", count:1, image:"cards/el_mago_del_espejo/paseo_aereo.png", keepInDiscard: false},
-        {name:"[ME] Pocion Curación Lobo", desc:"", count:1, image:"cards/el_mago_del_espejo/pocion_curacion_lobo.png", keepInDiscard: false}
-    ],
-    luna: [
-        {name:"[LT] Flor Misteriosa", desc:"", count:2, image:"cards/la_luna_del_terror/flor_misteriosa.png", keepInDiscard: false},
-        {name:"[LT] Ingrediente Desconocido", desc:"", count:2, image:"cards/la_luna_del_terror/ingrediente_desconocido.png", keepInDiscard: false},
-        {name:"[LT] Planta Sagrada", desc:"", count:2, image:"cards/la_luna_del_terror/planta_sagrada.png", keepInDiscard: false},
-        {name:"[LT] Veneno Bestia Sombría", desc:"", count:2, image:"cards/la_luna_del_terror/veneno.png", keepInDiscard: true}
-    ],
-    junglas: [
-        {name:"[JD] Reliquia Enana Ancestral", desc:"", count:1, image:"cards/junglas_del_delthrak/antigua_reliquia_enana.png", keepInDiscard: false},
-        {name:"[JD] Corazón Esmeralda de Delthrak", desc:"", count:1, image:"cards/junglas_del_delthrak/corazon_esmeralda.png", keepInDiscard: false},
-        {name:"[JD] Peligro", desc:"", count:1, image:"cards/junglas_del_delthrak/peligro1.png", keepInDiscard: true},
-        {name:"[JD] Peligro", desc:"", count:1, image:"cards/junglas_del_delthrak/peligro2.png", keepInDiscard: true},
-    ],
-    wizard: [
-        {name:"[HM] Activación Mágica", desc:"Mientras registras una habitación activas una trampa 'Estallido de Fuego'. Coloca un símbolo de 'Estallido de Fuego' en el centro de la habitación y consulta la tabla de referencia de Magia para saber los efectos de la trampa. Descartar después de usarla.", count:2, image: null, keepInDiscard: false},
-        {name:"[HM] Nada", desc:"", count:1, image:"cards/hechiceros_de_morcar/nada.png", keepInDiscard: true},
-        {name:"[HM] Veneno", desc:"Destapas un frasco marrón, oxidado, lleno de un líquido. Lo pruebas y resulta venenoso. Debes tirar un dado de combate y si sacas una calavera pierdes un Punto Cuerpo, en otro caso, resultas ileso. Descartar después de usarla.", count:1, image:null, keepInDiscard: false},
-        {name:"[HM] Poción de Alquimia", desc:"En un rincón de la habitación descubres una olla vieja que contiene una pasta opaca. Si extiendes esta pasta sobre un elemento de tu equipo lo convierte en oro con un valor equivalente a 100 monedas de oro. Esa carta de equipo se pierde. Descartar, junto con la carta de equipo, cuando haya sido usada.", count:1, image:null, keepInDiscard: false},
-        {name:"[HM] Poción de Carisma", desc:"Detrás de un ladrillo suelto encuentras una botella dorada llena de un líquido del mismo color. Bébelo entre aventuras cuando quieras contratar hombres armados y podrás contratar hasta tres de ellos por 25 monedas de oro menos de la tarifa normal para cada uno. Descartar después de usarla.", count:1, image:null, keepInDiscard: false},
-        {name:"[HM] Poción de Resistencia al Fuego", desc:"", count:1, image:null, keepInDiscard: false},
-        {name:"[HM] Poción de Resistencia a la Magia", desc:"Encuentras una pequeña botella escondida bajo un escudo oxidado. Podrás beberte la pócima cuando un hechizo haya sido lanzado en contra tuya e ignorar los efectos del hechizo. Descartar después de usarla.", count:1, image:null, keepInDiscard: false},
-        {name:"[HM] Poción de Aptitudes Mágicas", desc:"Descubres una ampolla de un líquido plateado bajo una losa suelta. Si eres el Elfo o el Mago podrás bebértela al principio de tu turno y poder lanzar dos hechizos en vez de uno. Descartar después de usarla.", count:1, image:null, keepInDiscard: false},
-    ],
-};
+            // 1. Clonar el mazo base original
+            let currentActiveDeck = [...originalDeck];
 
-let deck = [];
-let discard = [];
-let current = null;
+            // 2. Comprobar qué expansiones están seleccionadas en el DOM[cite: 1]
+            const checkboxes = document.querySelectorAll('.expansion-selector input[type="checkbox"]');
+            checkboxes.forEach(checkbox => {
+                if (checkbox.checked && expansionsData[checkbox.value]) {
+                    // Concatenar las cartas de la expansión seleccionada al mazo de trabajo[cite: 1]
+                    currentActiveDeck = currentActiveDeck.concat(expansionsData[checkbox.value]);
+                }
+            });
 
-function buildDeck() {
-    deck = [];
-    
-    // 1. Clonar el mazo base original
-    let currentActiveDeck = [...originalDeck];
-    
-    // 2. Comprobar qué expansiones están seleccionadas en el DOM[cite: 1]
-    const checkboxes = document.querySelectorAll('.expansion-selector input[type="checkbox"]');
-    checkboxes.forEach(checkbox => {
-        if (checkbox.checked && expansionsData[checkbox.value]) {
-            // Concatenar las cartas de la expansión seleccionada al mazo de trabajo[cite: 1]
-            currentActiveDeck = currentActiveDeck.concat(expansionsData[checkbox.value]);
+            // 3. Generar el pool final según el 'count' de cada carta[cite: 1]
+            currentActiveDeck.forEach(c => {
+                for (let i = 0; i < c.count; i++) {
+                    deck.push({ ...c });
+                }
+            });
         }
-    });
 
-    // 3. Generar el pool final según el 'count' de cada carta[cite: 1]
-    currentActiveDeck.forEach(c => {
-        for (let i = 0; i < c.count; i++) {
-            deck.push({...c});
+        function shuffle(arr) {
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
         }
-    });
-}
 
-function shuffle(arr) {
-    for (let i = arr.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [arr[i], arr[j]] = [arr[j], arr[i]];
-    }
-}
-
-function shuffleDeck() {
-    buildDeck();
-    shuffle(deck);
-    discard = [];
-    current = null;
-    updateUI();
-}
-
-function drawCard() {
-    // MODIFICACIÓN PRINCIPAL:
-    // Al robar una nueva carta, evaluamos si la carta que estaba en juego ('current')
-    // debe ser guardada en el mazo de descartes o si es destruida/excluida del flujo.
-    if (current) {
-        if (current.keepInDiscard) {
-            discard.push(current);
-        }
-        // Si 'keepInDiscard' es false, no se pushea a 'discard', perdiéndose la referencia en la baraja actual.
-    }
-
-    if (deck.length === 0) {
-        if (discard.length === 0) {
-            current = null; // No quedan cartas en el mazo ni en descartes
+        function shuffleDeck() {
+            buildDeck();
+            shuffle(deck);
+            discard = [];
+            current = null;
             updateUI();
-            return;
         }
-        deck = discard;
-        discard = [];
-        shuffle(deck);
-    }
 
-    current = deck.pop();
-    updateUI();
-}
+        function drawCard() {
+            // MODIFICACIÓN PRINCIPAL:
+            // Al robar una nueva carta, evaluamos si la carta que estaba en juego ('current')
+            // debe ser guardada en el mazo de descartes o si es destruida/excluida del flujo.
+            if (current) {
+                if (current.keepInDiscard) {
+                    discard.push(current);
+                }
+                // Si 'keepInDiscard' es false, no se pushea a 'discard', perdiéndose la referencia en la baraja actual.
+            }
 
-function updateUI() {
-    document.getElementById("deckCount").innerText = deck.length;
-    const currentCardEl = document.getElementById("currentCard");
+            if (deck.length === 0) {
+                if (discard.length === 0) {
+                    current = null; // No quedan cartas en el mazo ni en descartes
+                    updateUI();
+                    return;
+                }
+                deck = discard;
+                discard = [];
+                shuffle(deck);
+            }
 
-    if (!current) {
-        currentCardEl.innerHTML = `
+            current = deck.pop();
+            updateUI();
+        }
+
+        function updateUI() {
+            document.getElementById("deckCount").innerText = deck.length;
+            const currentCardEl = document.getElementById("currentCard");
+
+            if (!current) {
+                currentCardEl.innerHTML = `
             <div class="title">Sin carta</div>
             <div class="desc">Pulsa “Robar Carta” para comenzar o el mazo se ha agotado por completo.</div>
         `;
-    } else {
-        if (current.image) {
-            currentCardEl.innerHTML = `
+            } else {
+                if (current.image) {
+                    currentCardEl.innerHTML = `
                 <img src="${current.image}" alt="${current.name}" class="card-img" />
             `;
-        } else {
-            currentCardEl.innerHTML = `
+                } else {
+                    currentCardEl.innerHTML = `
                 <div class="title" style="font-size: 22px; font-weight: bold; margin-bottom: 12px;">${current.name}</div>
                 <div class="desc" style="max-width: 90%; margin: 0 auto;">${current.desc || "Sin descripción disponible."}</div>
             `;
+                }
+            }
+
+            const discardEl = document.getElementById("discardPile");
+            if (discard.length === 0) {
+                discardEl.innerHTML = `<div class="desc">Vacío</div>`;
+            } else {
+                discardEl.innerHTML = discard
+                    .slice()
+                    .reverse()
+                    .map(c => `<div>${c.name}</div>`)
+                    .join("");
+            }
         }
-    }
 
-    const discardEl = document.getElementById("discardPile");
-    if (discard.length === 0) {
-        discardEl.innerHTML = `<div class="desc">Vacío</div>`;
-    } else {
-        discardEl.innerHTML = discard
-            .slice()
-            .reverse()
-            .map(c => `<div>${c.name}</div>`)
-            .join("");
-    }
-}
+        // Inicialización[cite: 1]
+        shuffleDeck();
 
-// Inicialización[cite: 1]
-shuffleDeck();
-
-</script>
+    </script>
 </body>
+
 </html>
