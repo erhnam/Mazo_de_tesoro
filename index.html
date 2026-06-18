@@ -193,59 +193,59 @@ button:hover {
 
 <script>
 
-// Mazo base original
+// Mazo base original (Se añade 'keepInDiscard: true' por defecto)
 const originalDeck = [
-    {name:"Gema", desc:"", count:2, image:"cards/basic/gema.png"},
-    {name:"Oro_15", desc:"", count:2, image:"cards/basic/oro_15.png"},
-    {name:"Oro_25", desc:"", count:2, image:"cards/basic/oro_25.png"},
-    {name:"Poción de Defensa", desc:"", count:1, image:"cards/basic/pocion_defensa.png"},
-    {name:"Poción de Fuerza", desc:"", count:1, image:"cards/basic/pocion_fuerza.png"},
-    {name:"Poción Heróica", desc:"", count:1, image:"cards/basic/pocion_heroica.png"},
-    {name:"Joyas", desc:"", count:2, image:"cards/basic/joyas.png"},
-    {name:"Monstruo Errante", desc:"", count:6, image:"cards/basic/monstruo_errante.png"},
-    {name:"Peligro_foso", desc:"", count:2, image:"cards/basic/peligro_foso.png"},
-    {name:"Peligro_flecha", desc:"", count:2, image:"cards/basic/peligro_flecha.png"},
-    {name:"Poción Curativa", desc:"", count:3, image:"cards/basic/pocion_curativa_dado.png"}
+    {name:"Gema", desc:"", count:2, image:"cards/basic/gema.png", keepInDiscard: false},
+    {name:"Oro_15", desc:"", count:2, image:"cards/basic/oro_15.png", keepInDiscard: false},
+    {name:"Oro_25", desc:"", count:2, image:"cards/basic/oro_25.png", keepInDiscard: false},
+    {name:"Poción de Defensa", desc:"", count:1, image:"cards/basic/pocion_defensa.png", keepInDiscard: false},
+    {name:"Poción de Fuerza", desc:"", count:1, image:"cards/basic/pocion_fuerza.png", keepInDiscard: false},
+    {name:"Poción Heróica", desc:"", count:1, image:"cards/basic/pocion_heroica.png", keepInDiscard: false},
+    {name:"Joyas", desc:"", count:2, image:"cards/basic/joyas.png", keepInDiscard: false},
+    {name:"Monstruo Errante", desc:"", count:6, image:"cards/basic/monstruo_errante.png", keepInDiscard: true},
+    {name:"Peligro_foso", desc:"", count:2, image:"cards/basic/peligro_foso.png", keepInDiscard: true},
+    {name:"Peligro_flecha", desc:"", count:2, image:"cards/basic/peligro_flecha.png", keepInDiscard: true},
+    {name:"Poción Curativa", desc:"", count:3, image:"cards/basic/pocion_curativa_dado.png", keepInDiscard: false}
 ];
 
 // Diccionario de expansiones con sus respectivas cartas virtuales
 const expansionsData = {
     congelado: [
-        {name:"[HC] Poción de Calidez", desc:"", count:2, image:"cards/el_horror_congelado/pocion_calidez.png"},
-        {name:"[HC] Poción de Resistencia Mágica", desc:"", count:2, image:"cards/el_horror_congelado/pocion_resistencia_magica.png"},
-        {name:"[HC] Veneno", desc:"", count:2, image:"cards/el_horror_congelado/veneno.png"}
+        {name:"[HC] Poción de Calidez", desc:"", count:2, image:"cards/el_horror_congelado/pocion_calidez.png", keepInDiscard: false},
+        {name:"[HC] Poción de Resistencia Mágica", desc:"", count:2, image:"cards/el_horror_congelado/pocion_resistencia_magica.png", keepInDiscard: false},
+        {name:"[HC] Veneno", desc:"", count:2, image:"cards/el_horror_congelado/veneno.png", keepInDiscard: true}
     ],
     espejo: [
-        {name:"[ME] Poción del Recuerdo", desc:"", count:1, image:"cards/el_mago_del_espejo/pocion_recuerdo.png"},
-        {name:"[ME] Poción de Visión", desc:"", count:1, image:"cards/el_mago_del_espejo/pocion_vision.png"},
-        {name:"[ME] Poción de Velocidad", desc:"", count:1, image:"cards/el_mago_del_espejo/pocion_velocidad.png"},
-        {name:"[ME] Poción de Restauracion Superior", desc:"", count:1, image:"cards/el_mago_del_espejo/pocion_restauracion_superior.png"},
-        {name:"[ME] Tesoro Escondido", desc:"", count:1, image:"cards/el_mago_del_espejo/tesoro_escondido.png"},
-        {name:"[ME] Capa Élfica de Paso", desc:"", count:1, image:"cards/el_mago_del_espejo/capa_elfica_de_paso.png"},
-        {name:"[ME] Paseo Aéreo", desc:"", count:1, image:"cards/el_mago_del_espejo/paseo_aereo.png"},
-        {name:"[ME] Pocion Curación Lobo", desc:"", count:1, image:"cards/el_mago_del_espejo/pocion_curacion_lobo.png"}
+        {name:"[ME] Poción del Recuerdo", desc:"", count:1, image:"cards/el_mago_del_espejo/pocion_recuerdo.png", keepInDiscard: false},
+        {name:"[ME] Poción de Visión", desc:"", count:1, image:"cards/el_mago_del_espejo/pocion_vision.png", keepInDiscard: false},
+        {name:"[ME] Poción de Velocidad", desc:"", count:1, image:"cards/el_mago_del_espejo/pocion_velocidad.png", keepInDiscard: false},
+        {name:"[ME] Poción de Restauracion Superior", desc:"", count:1, image:"cards/el_mago_del_espejo/pocion_restauracion_superior.png", keepInDiscard: false},
+        {name:"[ME] Tesoro Escondido", desc:"", count:1, image:"cards/el_mago_del_espejo/tesoro_escondido.png", keepInDiscard: false},
+        {name:"[ME] Capa Élfica de Paso", desc:"", count:1, image:"cards/el_mago_del_espejo/capa_elfica_de_paso.png", keepInDiscard: false},
+        {name:"[ME] Paseo Aéreo", desc:"", count:1, image:"cards/el_mago_del_espejo/paseo_aereo.png", keepInDiscard: false},
+        {name:"[ME] Pocion Curación Lobo", desc:"", count:1, image:"cards/el_mago_del_espejo/pocion_curacion_lobo.png", keepInDiscard: false}
     ],
     luna: [
-        {name:"[LT] Flor Misteriosa", desc:"", count:2, image:"cards/la_luna_del_terror/flor_misteriosa.png"},
-        {name:"[LT] Ingrediente Desconocido", desc:"", count:2, image:"cards/la_luna_del_terror/ingrediente_desconocido.png"},
-        {name:"[LT] Planta Sagrada", desc:"", count:2, image:"cards/la_luna_del_terror/planta_sagrada.png"},
-        {name:"[LT] Veneno Bestia Sombría", desc:"", count:2, image:"cards/la_luna_del_terror/veneno.png"}
+        {name:"[LT] Flor Misteriosa", desc:"", count:2, image:"cards/la_luna_del_terror/flor_misteriosa.png", keepInDiscard: false},
+        {name:"[LT] Ingrediente Desconocido", desc:"", count:2, image:"cards/la_luna_del_terror/ingrediente_desconocido.png", keepInDiscard: false},
+        {name:"[LT] Planta Sagrada", desc:"", count:2, image:"cards/la_luna_del_terror/planta_sagrada.png", keepInDiscard: false},
+        {name:"[LT] Veneno Bestia Sombría", desc:"", count:2, image:"cards/la_luna_del_terror/veneno.png", keepInDiscard: true}
     ],
     junglas: [
-        {name:"[JD] Reliquia Enana Ancestral", desc:"A pesar de los años, está inmaculada.\n¡Descubres uno de los Tesoros olvidados de Delthrak! Esta elegante obra de arte Enana vale 50 Monedas de Oro. No devuelvas esta Carta al fondo del mazo de Tesoros.", count:1, image: null},
-        {name:"[JD] Corazón Esmeralda de Delthrak", desc:"La jungla era así de verde antes de la plaga.\nLos habitantes de Delthrak valoran mucho esta extraña gema, que tiene un valor de 75 Monedas de Oro. No devuelvas esta Carta al fondo del mazo de Tesoros.", count:1, image: null},
-        {name:"[JD] Peligro!", desc:"Una extraña presencia capta tu atención.\nDescubres una estatuilla de grandes ojos brillantes. ¡Cuando haces contacto visual con ella, emite un chillido agudo! Tira 1 Dado Rojo por cada uno de tus Puntos Mentales. Si sacas un 6, resistes los efectos. De lo contrario, pierdes 2 Puntos Corporales. Tu turno termina de inmediato. Devuelve esta Carta al fondo del mazo de Tesoros.", count:1, image: null},
-        {name:"[JD] Peligro! - Baratijas", desc:"¿Qué habrá dentro?\nTe inclinas para examinar una pequeña cesta de paja llena de brillantes bagatelas. De pronto, ¡un enorme ciempiés rojo sale de la cesta a toda velocidad y salta a tu mano! Coloca una ficha de Engendro de Ciempiés Gigante sobre tu carta de Personaje. Tu turno termina de inmediato. Devuelve esta Carta al fondo del mazo de Tesoros.", count:1, image: null},
+        {name:"[JD] Reliquia Enana Ancestral", desc:"", count:1, image:"cards/junglas_del_delthrak/antigua_reliquia_enana.png", keepInDiscard: false},
+        {name:"[JD] Corazón Esmeralda de Delthrak", desc:"", count:1, image:"cards/junglas_del_delthrak/corazon_esmeralda.png", keepInDiscard: false},
+        {name:"[JD] Peligro", desc:"", count:1, image:"cards/junglas_del_delthrak/peligro1.png", keepInDiscard: true},
+        {name:"[JD] Peligro", desc:"", count:1, image:"cards/junglas_del_delthrak/peligro2.png", keepInDiscard: true},
     ],
     wizard: [
-        {name:"[HM] Activación Mágica", desc:"Mientras registras una habitación activas una trampa 'Estallido de Fuego'. Coloca un símbolo de 'Estallido de Fuego' en el centro de la habitación y consulta la tabla de referencia de Magia para saber los efectos de la trampa. Descartar después de usarla.", count:2, image: null},
-        {name:"[HM] Nada", desc:"", count:1, image:"cards/hechiceros_de_morcar/nada.png"},
-        {name:"[HM] Veneno", desc:"Destapas un frasco marrón, oxidado, lleno de un líquido. Lo pruebas y resulta venenoso. Debes tirar un dado de combate y si sacas una calavera pierdes un Punto Cuerpo, en otro caso, resultas ileso. Descartar después de usarla.", count:1, image:null},
-        {name:"[HM] Poción de Alquimia", desc:"En un rincón de la habitación descubres una olla vieja que contiene una pasta opaca. Si extiendes esta pasta sobre un elemento de tu equipo lo convierte en oro con un valor equivalente a 100 monedas de oro. Esa carta de equipo se pierde. Descartar, junto con la carta de equipo, cuando haya sido usada.", count:1, image:null},
-        {name:"[HM] Poción de Carisma", desc:"Detrás de un ladrillo suelto encuentras una botella dorada llena de un líquido del mismo color. Bébelo entre aventuras cuando quieras contratar hombres armados y podrás contratar hasta tres de ellos por 25 monedas de oro menos de la tarifa normal para cada uno. Descartar después de usarla.", count:1, image:null},
-        {name:"[HM] Poción de Resistencia al Fuego", desc:"", count:1, image:null},
-        {name:"[HM] Poción de Resistencia a la Magia", desc:"Encuentras una pequeña botella escondida bajo un escudo oxidado. Podrás beberte la pócima cuando un hechizo haya sido lanzado en contra tuya e ignorar los efectos del hechizo. Descartar después de usarla.", count:1, image:null},
-        {name:"[HM] Poción de Aptitudes Mágicas", desc:"Descubres una ampolla de un líquido plateado bajo una losa suelta. Si eres el Elfo o el Mago podrás bebértela al principio de tu turno y poder lanzar dos hechizos en vez de uno. Descartar después de usarla.", count:1, image:null},
+        {name:"[HM] Activación Mágica", desc:"Mientras registras una habitación activas una trampa 'Estallido de Fuego'. Coloca un símbolo de 'Estallido de Fuego' en el centro de la habitación y consulta la tabla de referencia de Magia para saber los efectos de la trampa. Descartar después de usarla.", count:2, image: null, keepInDiscard: false},
+        {name:"[HM] Nada", desc:"", count:1, image:"cards/hechiceros_de_morcar/nada.png", keepInDiscard: true},
+        {name:"[HM] Veneno", desc:"Destapas un frasco marrón, oxidado, lleno de un líquido. Lo pruebas y resulta venenoso. Debes tirar un dado de combate y si sacas una calavera pierdes un Punto Cuerpo, en otro caso, resultas ileso. Descartar después de usarla.", count:1, image:null, keepInDiscard: false},
+        {name:"[HM] Poción de Alquimia", desc:"En un rincón de la habitación descubres una olla vieja que contiene una pasta opaca. Si extiendes esta pasta sobre un elemento de tu equipo lo convierte en oro con un valor equivalente a 100 monedas de oro. Esa carta de equipo se pierde. Descartar, junto con la carta de equipo, cuando haya sido usada.", count:1, image:null, keepInDiscard: false},
+        {name:"[HM] Poción de Carisma", desc:"Detrás de un ladrillo suelto encuentras una botella dorada llena de un líquido del mismo color. Bébelo entre aventuras cuando quieras contratar hombres armados y podrás contratar hasta tres de ellos por 25 monedas de oro menos de la tarifa normal para cada uno. Descartar después de usarla.", count:1, image:null, keepInDiscard: false},
+        {name:"[HM] Poción de Resistencia al Fuego", desc:"", count:1, image:null, keepInDiscard: false},
+        {name:"[HM] Poción de Resistencia a la Magia", desc:"Encuentras una pequeña botella escondida bajo un escudo oxidado. Podrás beberte la pócima cuando un hechizo haya sido lanzado en contra tuya e ignorar los efectos del hechizo. Descartar después de usarla.", count:1, image:null, keepInDiscard: false},
+        {name:"[HM] Poción de Aptitudes Mágicas", desc:"Descubres una ampolla de un líquido plateado bajo una losa suelta. Si eres el Elfo o el Mago podrás bebértela al principio de tu turno y poder lanzar dos hechizos en vez de uno. Descartar después de usarla.", count:1, image:null, keepInDiscard: false},
     ],
 };
 
@@ -292,10 +292,22 @@ function shuffleDeck() {
 }
 
 function drawCard() {
-    if (current) discard.push(current);
+    // MODIFICACIÓN PRINCIPAL:
+    // Al robar una nueva carta, evaluamos si la carta que estaba en juego ('current')
+    // debe ser guardada en el mazo de descartes o si es destruida/excluida del flujo.
+    if (current) {
+        if (current.keepInDiscard) {
+            discard.push(current);
+        }
+        // Si 'keepInDiscard' es false, no se pushea a 'discard', perdiéndose la referencia en la baraja actual.
+    }
 
     if (deck.length === 0) {
-        if (discard.length === 0) return; // Mazo completamente vacío
+        if (discard.length === 0) {
+            current = null; // No quedan cartas en el mazo ni en descartes
+            updateUI();
+            return;
+        }
         deck = discard;
         discard = [];
         shuffle(deck);
@@ -312,10 +324,9 @@ function updateUI() {
     if (!current) {
         currentCardEl.innerHTML = `
             <div class="title">Sin carta</div>
-            <div class="desc">Pulsa “Robar Carta” para comenzar.</div>
+            <div class="desc">Pulsa “Robar Carta” para comenzar o el mazo se ha agotado por completo.</div>
         `;
     } else {
-        // Validación: si tiene imagen, renderiza el tag <img>. Si es null, renderiza el título y la descripción.
         if (current.image) {
             currentCardEl.innerHTML = `
                 <img src="${current.image}" alt="${current.name}" class="card-img" />
@@ -340,7 +351,7 @@ function updateUI() {
     }
 }
 
-// Inicialización
+// Inicialización[cite: 1]
 shuffleDeck();
 
 </script>
